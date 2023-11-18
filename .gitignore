@@ -1,2 +1,4 @@
 /node_modules
 semaphore/test/semaphore
+
+.DS_Store

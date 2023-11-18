@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer base {
+  @font-face {
+    font-family: 'gtAmerica';
+    font-weight: 400;
+    src: url('../public/fonts/GT-America-Standard-Regular.woff2') format("woff2");
+  }
+
+  @font-face {
+    font-family: 'gtAmericaBold';
+    font-weight: 600;
+    src: url('../public/fonts/GT-America-Standard-Bold.woff2') format("woff2");
+  }
+
+  body {
+    @apply dark:bg-neutral-800 bg-white;
+  }
+  
+}

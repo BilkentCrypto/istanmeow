@@ -83,8 +83,8 @@ export default function Header({ headerText }) {
       <div className="flex-row flex flex-grow max-w-990 justify-between items-center self-center">
         <div className="hidden sm:block">
           <a href="/" className="">
-            <span className="text-black font-gtBold dark:text-white">
-              {headerText}
+            <span className="text-black text-2xl font-bold dark:text-white">
+              Community
             </span>
           </a>
         </div>
@@ -113,32 +113,23 @@ export default function Header({ headerText }) {
           ) : (
             <div
               ref={connectButtonRef}
+<<<<<<< Updated upstream
              
               className="py-2 px-4 ">
 <w3m-button />
+=======
+              onClick={() => setVisible('connect')} className=' mt-2 flex items-center justify-center'
+             
+            >
+              <button  className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-full text-sm px-6 py-3 text-center me-2 mb-2">Connect Wallet</button>
+
+>>>>>>> Stashed changes
             </div>
+
           )}
-          <div
-            ref={menuButtonRef}
-            className="p-2 ml-3 flex rounded-full h-10 w-10 border border-grey-500 dark:border-zinc-700 justify-center items-center content-center cursor-pointer"
-            onClick={() => setVisible('menu')}>
-            <div className="flex flex-row">
-              <div className="w-1 h-1 mx-0.5 rounded-full bg-black dark:bg-white"></div>
-              <div className="w-1 h-1 mx-0.5 rounded-full bg-black dark:bg-white"></div>
-              <div className="w-1 h-1 mx-0.5 rounded-full bg-black dark:bg-white"></div>
-            </div>
-          </div>
-          {visible === 'menu' ? (
-            <div className="absolute top-16 w-80 z-50" ref={menuRef}>
-              <UserMenu
-                address={address}
-                onClick={() => {
-                  disconnect();
-                  setVisible(null);
-                }}
-              />
-            </div>
-          ) : null}
+
+
+
           {visible === 'connect' ? (
             <div className="absolute top-16   z-50" ref={walletRef}>
               <w3m-button />

@@ -1,85 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
+
 import Layout from '../Layout/Layout';
+
 import { getContract } from '../../../../data/contracts';
 import Avatar from '../Avatar';
 import { MMContext } from '../../contexts/mm';
-import {
-  waitForRemotePeer,
-  createDecoder,
-  createEncoder,
-  createLightNode,
-  createRelayNode,
-} from '@waku/sdk';
-import protobuf from "protobufjs";
 
 export default function CreatePost({ initialData, address, contract }) {
-
-  const [waku, setWaku] = React.useState(undefined);
-  const [wakuStatus, setWakuStatus] = React.useState("None");
-  const ContentTopic = "/toy-chat/" + address + "/huilong/proto";
-  const Encoder = createEncoder({ contentTopic: ContentTopic });
-  const Decoder = createDecoder(ContentTopic);
-
-  const SimpleChatMessage = new protobuf.Type("SimpleChatMessage")
-  .add(new protobuf.Field("timestamp", 1, "uint32"))
-  .add(new protobuf.Field("text", 2, "string"));
-
-  useEffect(() => {
-    if (wakuStatus !== "None") return;
-
-    setWakuStatus("Starting");
-
-    createRelayNode({ defaultBootstrap: true }).then((waku) => {
-      waku.start().then(() => {
-        setWaku(waku);
-        setWakuStatus("Connecting");
-      });
-    });
-  }, [waku, wakuStatus]);
-
-  useEffect(() => {
-    if (!waku) return;
-
-    // We do not handle disconnection/re-connection in this example
-    if (wakuStatus === "Connected") return;
-
-    waitForRemotePeer(waku, ["relay"]).then(() => {
-      // We are now connected to a store node
-      setWakuStatus("Connected");
-    });
-  }, [waku, wakuStatus]);
-  
-  const processIncomingMessage = React.useCallback((wakuMessage) => {
-    console.log("Message received", wakuMessage);
-    if (!wakuMessage.payload) return;
-
-    const { text, timestamp } = SimpleChatMessage.decode(wakuMessage.payload);
-
-    const time = new Date();
-
-    time.setTime(timestamp);
-    const message = { text, timestamp: time };
-
-    setMessages((messages) => {
-      return [message].concat(messages);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!waku) return;
-
-    // Pass the content topic to only process messages related to your dApp
-    const deleteObserver = waku.relay.subscribe(
-      Decoder,
-      processIncomingMessage
-    );
-
-    // Called when the component is unmounted, see ReactJS doc.
-    return deleteObserver;
-  }, [waku, wakuStatus, processIncomingMessage]);
-
   const router = useRouter();
   const { data: { name, imageURL } = {}, refetch } = useQuery(
     ['contract', address],
@@ -116,15 +45,6 @@ export default function CreatePost({ initialData, address, contract }) {
 
     if (formValues.title && formValues.body) {
       try {
-        const sendAsJson = " { title: " + formValues.title + ", " + "body: " + formValues.body + "}";
-        if (wakuStatus !== "Ready") return;
-        sendMessage(sendAsJson, waku, new Date()).then(() => console.log("message sent"));
-      } catch (error) {
-        console.error(error);
-        setError(true);
-      }
-
-      try {
         // Make API request to server to create a new message
         const response = await fetch(`/api/contracts/posts/${address}`, {
           method: 'POST',
@@ -149,20 +69,6 @@ export default function CreatePost({ initialData, address, contract }) {
       }
     }
   };
-
-  function sendMessage(message, waku, timestamp) {
-    const time = timestamp.getTime();
-  
-    // Encode to protobuf
-    const protoMsg = SimpleChatMessage.create({
-      timestamp: time,
-      text: message,
-    });
-    const payload = SimpleChatMessage.encode(protoMsg).finish();
-  
-    // Send over Waku Relay
-    return waku.relay.send(Encoder, { payload });
-  }
 
   const { mutate, isLoading, error } = useMutation(createMessage);
 

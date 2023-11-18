@@ -23,7 +23,6 @@ import {
   createDecoder,
   bytesToUtf8,
 } from "@waku/sdk";
-const decoder = createDecoder(ContentTopic);
 
 const ProtoChatMessage = new protobuf.Type("ChatMessage")
   .add(new protobuf.Field("timestamp", 1, "uint64"))
@@ -35,6 +34,8 @@ export default function Flow({
   initialDataPosts,
   address,
 }) {
+  const ContentTopic = "/toy-chat/" + address + "/huilong/proto";
+  const decoder = createDecoder(ContentTopic);
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -126,7 +127,6 @@ export default function Flow({
     })();
   }, [waku, wakuStatus]);
 
-
   useEffect(() => {
     const currentTheme = theme === 'system' ? systemTheme : theme;
     setCurrentTheme(currentTheme);
@@ -144,9 +144,18 @@ export default function Flow({
   function Messages(props) {
     return props.messages.map(({ text, timestamp, nick, timestampInt }) => {
       return (
-        <li key={timestampInt}>
-          ({formatDate(timestamp)}) {nick}: {text}
-        </li>
+        <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
+          <div className="p-4 ">
+            <div className="mt-2">
+              <div className="text-base text-black font-gtBold dark:text-white">
+                {text}
+              </div>
+              <li key={timestampInt}>
+                ({formatDate(timestamp)}) {nick}
+              </li>
+            </div>
+          </div>
+        </div>
       );
     });
   }
@@ -222,6 +231,7 @@ export default function Flow({
                   </div>
                 )} */}
                 <h2>{wakuStatus}</h2>
+                <h3>{ContentTopic}</h3>
                 <Messages messages={messages} />
               </div>
               <div className="basis-1/3">

@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "78b09d7a-d0d5-4c5f-bc1b-1f170a3185d7",
+		"name": "NFTq",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24995561"
+	},
+	"item": [
+		{
+			"name": "Get Contracts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Bearer}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/?filter=&limit=1&offset=0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						""
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": ""
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Server Test Flight",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scrape NFTs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/scrape?t=133",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"scrape"
+					],
+					"query": [
+						{
+							"key": "t",
+							"value": "133"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scrape Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/scrape/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"scrape",
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add posts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Wut wut\",\n    \"body\": \"Testasdfasdflksad\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/{{nft_contract}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"{{nft_contract}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete posts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/{{nft_contract}}/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"{{nft_contract}}",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/{{nft_contract}}/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"{{nft_contract}}",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update post details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Lmao\", \n    \"body\": \"I am crazy\", \n    \"upvotes\": 5, \n    \"downvotes\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/{{nft_contract}}/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"{{nft_contract}}",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/{{nft_contract}}/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"{{nft_contract}}",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Replies for a post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/replies/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"replies",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a reply to a post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reply_text\": \"wow what a brilliant response\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/contracts/posts/replies/{{post_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"contracts",
+						"posts",
+						"replies",
+						"{{post_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a reply",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "nft_contract",
+			"value": "0xE29F8038d1A3445Ab22AD1373c65eC0a6E1161a4"
+		},
+		{
+			"key": "post_id",
+			"value": "16"
+		},
+		{
+			"key": "reply_id",
+			"value": "1"
+		}
+	]
+}

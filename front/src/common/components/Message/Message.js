@@ -38,7 +38,6 @@ export default function Message({
   const [isError, setError] = useState(false);
   const queryClient = useQueryClient();
 
-  console.log("yo yo", data)
   // const vote = async count => {
   //   setError(false);
   //   try {

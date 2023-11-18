@@ -1,0 +1,620 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "NFTq backend api",
+      "description": "Collection of the apis",
+      "version": "1.0.0"
+    },
+    "servers": [
+        {
+          "url": "http://localhost:3000"
+        }
+    ],
+    "paths": {
+      "api/test": {
+        "get": {
+           "summary" : "Test if the application is working",
+           "responses": {
+            "200": {
+                "description": "Success response",
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "Hello the world"
+                  }
+                }
+            }
+           } 
+        }
+      },
+      "api/user/me": {
+        "get": {
+          "summary": "Get a list of users",
+          "responses": {
+            "200": {
+              "description": "A list of users",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "api/auth/request-message": {
+        "post": {
+            "summary": "Request a message to sign for authentication",
+            "requestBody": {
+              "description": "Object containing the user's address, chain, and networkType",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "chain": {
+                        "type": "string"
+                      },
+                      "networkType": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Message to be signed",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "default": {
+                "description": "Unexpected error occurred",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        }
+      },
+      "api/auth/sign-message": {
+        "post": {
+            "summary": "Sign a message for authentication",
+            "requestBody": {
+              "description": "Object containing the networkType, message, and signature",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "networkType": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "signature": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "User object containing authentication details",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "string"
+                            },
+                            "chain": {
+                              "type": "string"
+                            },
+                            "networkType": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "default": {
+                "description": "Unexpected error occurred",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      },
+      "api/contracts/posts/{nft_contract}": {
+        "get": {
+          "summary": "Get all posts for a given contract",
+          "parameters": [
+            {
+              "name": "nft_contract",
+              "in": "path",
+              "required": true,
+              "description": "The contract to retrieve posts for",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "content": {
+                          "type": "string"
+                        },
+                        "nft_contract": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+            "summary": "Create a new post for a given contract",
+            "description": "This API allows a user to create a new post for a given NFT contract.",
+            "tags": [
+              "Posts"
+            ],
+            "parameters": [
+              {
+                "name": "nft_contract",
+                "in": "path",
+                "required": true,
+                "description": "The contract ID for which the post is being created",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "description": "The request body contains the post details",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the post",
+                        "example": "My First Post"
+                      },
+                      "body": {
+                        "type": "string",
+                        "description": "The body of the post",
+                        "example": "This is my first post on this forum."
+                      },
+                      "attached_img": {
+                        "type": "string",
+                        "description": "The URL of the attached image, if any",
+                        "example": "https://example.com/image.jpg"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "body"
+                    ]
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Post created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "A success message",
+                          "example": "Post created successfully."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "An error message",
+                          "example": "Title and body are required."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "An error message",
+                          "example": "Failed to create post."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+      }, 
+      "api/contracts/posts/{nft_contract}/{id}": {
+        "get": {
+          "summary": "Get a post by ID for a given contract",
+          "parameters": [
+            {
+              "name": "nft_contract",
+              "in": "path",
+              "required": true,
+              "description": "The contract to retrieve the post for",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "The ID of the post to retrieve",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "nft_contract": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Post not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+            "summary": "Update a post for a given NFT contract",
+            "parameters": [
+              {
+                "name": "nft_contract",
+                "in": "path",
+                "required": true,
+                "description": "The NFT contract to which the post belongs",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "description": "The ID of the post to update",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "description": "Fields to update for the post",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "body": {
+                        "type": "string"
+                      },
+                      "attached_img": {
+                        "type": "string"
+                      },
+                      "upvotes": {
+                        "type": "integer"
+                      },
+                      "downvotes": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Post updated successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Invalid request parameters",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Post not found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        },
+        "delete": {
+            "summary": "Deletes a post by nft contract and ID",
+            "parameters": [
+              {
+                "in": "path",
+                "name": "nft_contract",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The NFT contract of the post"
+              },
+              {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The ID of the post"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Post deleted successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Post deleted successfully."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Post not found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Post not found."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Server error."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        }    
+      }
+    }
+}

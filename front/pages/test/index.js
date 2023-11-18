@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { decryptMessage, encryptMessage } from '../../src/utils/encryption';
 
-var AES = require("crypto-js/aes");
-var CryptoJS = require("crypto-js");
-
-const AES_KEY = 'zkHubExampleKey'
 
 export default function Test({params}) {
 
@@ -30,9 +26,12 @@ const handleDecrypt = async( ) => {
 <>
 <input onChange={(e) => handleInputChange(e.target.value)}/>
 <button title='test button' onClick={handleEncrypt}>Test button</button>
+
+
 Test22222
 <h1>Key: {encrypted}</h1>
 <button  onClick={handleDecrypt}>Decyrpt button</button>
+
 </>
   );
 }

@@ -79,7 +79,7 @@ export default function Header({ headerText }) {
     <nav
       className="mx-auto sticky top-0 flex flex-row h-16 items-center justify-end sm:justify-center w-full dark:border-zinc-700 bg-white dark:bg-neutral-800 z-50 border-b"
       aria-label="Global">
-        {/* TODO: fix padding for smaller screens, was sm:px-6 b4 but it lags somehow */}
+      {/* TODO: fix padding for smaller screens, was sm:px-6 b4 but it lags somehow */}
       <div className="flex-row flex flex-grow max-w-990 justify-between items-center self-center">
         <div className="hidden sm:block">
           <a href="/" className="">
@@ -113,11 +113,9 @@ export default function Header({ headerText }) {
           ) : (
             <div
               ref={connectButtonRef}
-              onClick={() => setVisible('connect')}
-              className="py-2 px-4 rounded-full border border-grey-500 dark:border-zinc-700">
-              <span className="text-base dark:text-white leading-6 text-gray-900 cursor-pointer">
-                Connect Wallet <span aria-hidden="true"></span>
-              </span>
+             
+              className="py-2 px-4 ">
+<w3m-button />
             </div>
           )}
           <div
@@ -143,11 +141,7 @@ export default function Header({ headerText }) {
           ) : null}
           {visible === 'connect' ? (
             <div className="absolute top-16   z-50" ref={walletRef}>
-              <Wallet
-                onClick={() => {
-                  connect(() => setVisible(null));
-                }}
-              />
+              <w3m-button />
             </div>
           ) : null}
         </div>

@@ -1,3 +1,6 @@
 {
-  "name": "hardhat-project"
+  "name": "hardhat-project",
+  "dependencies": {
+    "@semaphore-protocol/contracts": "^3.15.0"
+  }
 }

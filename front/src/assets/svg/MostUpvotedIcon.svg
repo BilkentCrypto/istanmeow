@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="20px" viewBox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Most Upvoted Icon</title>
+    <g id="Dark-Mode" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Community-Defaul-(Dark)" transform="translate(-748.000000, -332.000000)">
+            <g id="Group-7" transform="translate(260.000000, 312.000000)">
+                <g id="Most-Upvoted-Icon" transform="translate(484.975770, 18.000000)">
+                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                    <path d="M9,12 L5.414,12 C5.0096041,11.9999137 4.64506595,11.7562725 4.49032202,11.3826546 C4.33557809,11.0090366 4.42109208,10.5789943 4.707,10.293 L11.293,3.707 C11.6834999,3.31661806 12.3165001,3.31661806 12.707,3.707 L19.293,10.293 C19.5789079,10.5789943 19.6644219,11.0090366 19.509678,11.3826546 C19.3549341,11.7562725 18.9903959,11.9999137 18.586,12 L15,12 L15,18 L9,18 L9,12 Z" id="Path" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <line x1="9" y1="21" x2="15" y2="21" id="Path" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

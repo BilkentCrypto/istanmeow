@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@covalenthq/client-sdk": "^0.6.3",
     "@libp2p/bootstrap": "^8.0.0",
     "@livechat/ui-kit": "^0.5.0-24",
     "@metamask/sdk": "^0.1.0",
@@ -47,9 +48,9 @@
     "prettier": "^2.7.1",
     "protons": "^6.0.1",
     "react-scripts": "5.0.1",
+    "sharp": "^0.32.1",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.3",
-    "url": "^0.11.0",
-    "sharp": "^0.32.1"
+    "url": "^0.11.0"
   }
 }

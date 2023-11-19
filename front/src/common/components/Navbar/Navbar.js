@@ -1,33 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useQuery } from 'react-query';
-import Image from 'next/image';
 
-import { getContracts } from '../../../../data/contracts';
-import { MMContext } from '../../contexts/mm';
-import Avatar from '../Avatar/Avatar';
 
-export default function Sidenav({ initialData = [] }) {
-  const { data, refetch } = useQuery(
-    'ownContracts',
-    () =>
-      getContracts(null, {
-        own: true,
-      }),
-    {
-      initialData,
-      staleTime: Infinity,
-      refetchOnMount: false,
-    },
-  );
-  const { isAuthorized } = useContext(MMContext);
-
-  useEffect(() => {
-    refetch();
-  }, [isAuthorized]);
-
+const Navbar = () => {
   return (
-    <aside className="flex  max-h-full rounded-3xl border-grey-500 bg-green-500">
+    <aside className="flex  max-h-full rounded-3xl border-grey-500 bg-transparent">
       <div className="flex flex-col w-48 h-screen  rounded-tr-2xl rounded-br-2xl py-4 space-y-4  bg-[#132D46] ">
         <div className="mt-3 text-center">
           <Link
@@ -83,31 +60,9 @@ export default function Sidenav({ initialData = [] }) {
             <span className="font-medium text-left ml-2 text-lg text-white">About zkHub</span>
           </Link>
         </div>
-        {data ? (
-          <>
-            {data?.contracts?.map((e, i) => (
-              <Link
-                key={i}
-                href={`/flow/${e.address}`}
-                className=" text-gray-500 py-0  rounded-full border border-grey-500">
-                {/* {e.imageURL ? (
-                  <Image
-                    alt="logo"
-                    className="w-12 h-12 object-cover rounded-full"
-                    width="12"
-                    height="12"
-                    src={e.imageURL}
-                  />
-                ) : ( */}
-                <div className="w-12 h-12 object-cover rounded-full overflow-hidden">
-                  <Avatar image={e.imageURL} address={e.address} />
-                </div>
-                {/* )} */}
-              </Link>
-            ))}
-          </>
-        ) : null}
       </div>
     </aside>
-  );
+  )
 }
+
+export default Navbar

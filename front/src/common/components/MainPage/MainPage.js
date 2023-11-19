@@ -61,9 +61,9 @@ export default function MainPage({ initialData = null }) {
 
   return (
     <Layout headerText="Communities" showFooter>
-      <div className="flex justify-center dark:border-zinc-700">
-        <div className="min-h-full bg-gray-100 flex flex-col max-w-screen-lg px-4 bg-white dark:bg-neutral-800 w-full">
-          <div className="w-full py-6 bg-white relative bg-white dark:bg-neutral-800 ">
+      <div className="flex justify-center bg-white dark:border-zinc-700">
+        <div className="min-h-full flex flex-col max-w-screen-lg px-4 bg-white dark:bg-neutral-800 w-full">
+          <div className="w-full py-6 bg-white relative dark:bg-neutral-800 ">
             <Image
               alt="logo"
               className="h-4 w-auto ml-3 absolute bottom-9"

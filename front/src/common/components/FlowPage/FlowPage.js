@@ -7,6 +7,9 @@ import { useRouter } from 'next/router';
 import { getContract } from '../../../../data/contracts';
 import etherscan from '../../../assets/svg/etherscan.svg';
 import etherscanDark from '../../../assets/svg/etherscandark.svg';
+import twitter from '../../../assets/svg/twitter.svg';
+import discord from '../../../assets/svg/discord.svg';
+import eth from '../../../assets/svg/eth.svg';
 import CreatePostBanner from '../CreatePostBanner';
 import SortPostsBunner from '../SortPostsBunner/SortPostsBunner';
 import Avatar from '../Avatar/Avatar';
@@ -30,6 +33,7 @@ export default function Flow({initialDataContract,address, }) {
   const router = useRouter();
   const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const decoder = createDecoder(ContentTopic);
+
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -38,7 +42,7 @@ export default function Flow({initialDataContract,address, }) {
     },
   );
   const [err, setErr] = useState(false);
-  const {isAuthorized, openMMlogin } = useContext(MMContext);
+  const { isAuthorized, openMMlogin } = useContext(MMContext);
   const queryClient = useQueryClient();
   const [currentTheme, setCurrentTheme] = React.useState();
   const { theme, systemTheme } = useTheme();
@@ -228,6 +232,7 @@ export default function Flow({initialDataContract,address, }) {
                   </div>
                 )}
                 <Messages messages={messages} />
+
               </div>
               <div className="basis-1/3">
                 <div className="rounded-md flex bg-white my-4 ml-4 border dark:border-zinc-700 dark:bg-neutral-800 ">
@@ -282,37 +287,4 @@ export default function Flow({initialDataContract,address, }) {
       </div>
     </Layout>
   );
-}
-
-function decodeMessage(wakuMessage) {
-  if (!wakuMessage.payload) return;
-
-  const { timestamp, nick, text } = ProtoChatMessage.decode(
-    wakuMessage.payload
-  );
-
-  if (!timestamp || !text || !nick) return;
-
-  const time = new Date();
-  time.setTime(Number(timestamp));
-
-  const utf8Text = bytesToUtf8(text);
-
-  return {
-    text: utf8Text,
-    timestamp: time,
-    nick,
-    timestampInt: wakuMessage.timestamp,
-  };
-}
-
-function formatDate(timestamp) {
-  return timestamp.toLocaleString([], {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
 }

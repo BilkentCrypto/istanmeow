@@ -1,10 +1,13 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { useRouter } from 'next/router';
+
 import Layout from '../Layout/Layout';
+
 import { getContract } from '../../../../data/contracts';
 import Avatar from '../Avatar';
 import { MMContext } from '../../contexts/mm';
+
 import {
   waitForRemotePeer,
   createEncoder,
@@ -62,6 +65,10 @@ export default function CreatePost({ initialData, address, contract }) {
     });
   }, [waku, wakuStatus]);
   
+
+
+export default function CreatePost({ initialData, address, contract }) {
+
   const router = useRouter();
   const { data: { name, imageURL } = {}, refetch } = useQuery(
     ['contract', address],
@@ -130,7 +137,6 @@ export default function CreatePost({ initialData, address, contract }) {
         payload: payload,
     });
   }
-
   const { mutate, isLoading, error } = useMutation(createMessage);
 
   return (

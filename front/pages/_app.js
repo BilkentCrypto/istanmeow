@@ -3,8 +3,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from 'next-themes';
 
 import '../styles/globals.css';
+import { Web3Modal } from "../context/Web3Modal";
 
-function NftQ({ Component, pageProps }) {
+export const metadata = {
+  title: "Web3Modal",
+  description: "Web3Modal Example",
+};
+
+function zkHub({ Component, pageProps }) {
+
   const queryClientRef = React.useRef();
 
   if (!queryClientRef.current) {
@@ -14,10 +21,12 @@ function NftQ({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <ThemeProvider attribute="class">
-        <Component {...pageProps} />
+        <Web3Modal>
+          <Component {...pageProps} />
+        </Web3Modal>
       </ThemeProvider>
     </QueryClientProvider>
   );
 }
 
-export default NftQ;
+export default zkHub;

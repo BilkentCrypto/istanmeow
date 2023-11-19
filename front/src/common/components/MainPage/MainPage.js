@@ -56,14 +56,14 @@ export default function MainPage({ initialData = null }) {
     refetch();
   }, [fetchState]);
 
-  const filteredContracts = contracts?.filter(e => ["Sound Paradise", "Hide and Scream", "Culinary Secrets", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
-  const remainingContracts = contracts?.filter(e => !["Sound Paradise", "Hide and Scream", "Culinary Secrets", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
+  const filteredContracts = contracts?.filter(e => ["Scroll - CryptoCats", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
+  const remainingContracts = contracts?.filter(e => !["Scroll - CryptoCats", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
 
   return (
     <Layout headerText="Communities" showFooter>
-      <div className="flex justify-center dark:border-zinc-700">
-        <div className="min-h-full bg-gray-100 flex flex-col max-w-screen-lg px-4 bg-white dark:bg-neutral-800 w-full">
-          <div className="w-full py-6 bg-white relative bg-white dark:bg-neutral-800 ">
+      <div className="flex justify-center bg-white dark:border-zinc-700">
+        <div className="min-h-full flex flex-col max-w-screen-lg px-4 bg-white dark:bg-neutral-800 w-full">
+          <div className="w-full py-6 bg-white relative dark:bg-neutral-800 ">
             <Image
               alt="logo"
               className="h-4 w-auto ml-3 absolute bottom-9"

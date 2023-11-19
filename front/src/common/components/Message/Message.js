@@ -5,21 +5,17 @@ import { useRouter } from 'next/router';
 import { timeAgo } from '../../../utils/date';
 import Avatar from '../Avatar/Avatar';
 import Vote from '../Vote/Vote';
-import { data } from 'autoprefixer';
 
 export default function Message({
   openMMlogin,
   isAuthorized,
   hasAccess,
   data: {
-    address = "s",
-    text,
-    timestamp,
-    nick, 
-    timestampInt,
+    address,
     post_id,
     tokens,
     topic,
+    timestamp,
     created_at,
     header,
     reply_count = 0,
@@ -38,42 +34,42 @@ export default function Message({
   const [isError, setError] = useState(false);
   const queryClient = useQueryClient();
 
-  // const vote = async count => {
-  //   setError(false);
-  //   try {
-  //     // Make API request to server to create a new message
-  //     const response = await fetch(
-  //       `/api/contracts/posts/${nft_contract}/${post_id}/vote`,
-  //       {
-  //         method: 'POST',
-  //         body: JSON.stringify({
-  //           count,
-  //         }),
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     );
+  const vote = async count => {
+    setError(false);
+    try {
+      // Make API request to server to create a new message
+      const response = await fetch(
+        `/api/contracts/posts/${nft_contract}/${post_id}/vote`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            count,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
 
-  //     // Check if the response is successful
-  //     if (response.ok) {
-  //       queryClient.invalidateQueries(['posts', nft_contract], {
-  //         forceRefetch: true,
-  //       });
-  //     } else {
-  //       setError(true);
-  //     }
-  //   } catch (error) {
-  //     setError(true);
-  //   }
-  // };
+      // Check if the response is successful
+      if (response.ok) {
+        queryClient.invalidateQueries(['posts', nft_contract], {
+          forceRefetch: true,
+        });
+      } else {
+        setError(true);
+      }
+    } catch (error) {
+      setError(true);
+    }
+  };
 
   const { mutate } = useMutation(vote);
-  console.log("hahah", text);
+
   return (
     <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
       <div className="p-4 ">
-        {/* <div
+        <div
           className="flex flex-row cursor-pointer"
           onClick={() => router.push(`${router.asPath}/${post_id}`)}>
           <div className="rounded-full overflow-hidden h-9 w-9">
@@ -93,13 +89,13 @@ export default function Message({
                 .join(' • ')}
             </div>
           </div>
-        </div> */}
+        </div>
         <div
           className="mt-2"
           // onClick={() => router.push(`${router.asPath}/${post_id}`)}
         >
           <div className="text-base text-black font-gtBold dark:text-white">
-            {text}
+            {title}
           </div>
           <div className="dark:text-gray-300">
             {!showText ? (
@@ -118,7 +114,7 @@ export default function Message({
         </div>
         <div className="flex flex-row items-center content-center mt-4">
           <div className="">
-            {/* <Vote
+            <Vote
               onClickUp={() => {
                 isAuthorized && hasAccess
                   ? mutate(1)
@@ -136,7 +132,7 @@ export default function Message({
               hasAccess={hasAccess}
               currentVote={current_vote}
               votes={votes}
-            /> */}
+            />
           </div>
           <div className="mx-3 dark:text-gray-400">|</div>
           <div

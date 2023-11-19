@@ -51,8 +51,8 @@ export default function Flow({
   return (
     <MMProvider address={address}>
       <Head>
-        <title>nftQ | community</title>
-        <meta name="description" content={`NFTQ - community for ${contract}`} />
+        <title>zkHub | community</title>
+        <meta name="description" content={`zkHub - community for ${contract}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FlowPage

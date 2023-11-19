@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import Message from '../Message';
 import Layout from '../Layout/Layout';
-
+import { useRouter } from 'next/router';
 import { getContract } from '../../../../data/contracts';
-import { getPosts } from '../../../../data/posts';
-
 import etherscan from '../../../assets/svg/etherscan.svg';
 import etherscanDark from '../../../assets/svg/etherscandark.svg';
+import twitter from '../../../assets/svg/twitter.svg';
+import discord from '../../../assets/svg/discord.svg';
+import eth from '../../../assets/svg/eth.svg';
 import CreatePostBanner from '../CreatePostBanner';
 import SortPostsBunner from '../SortPostsBunner/SortPostsBunner';
 import Avatar from '../Avatar/Avatar';
@@ -29,13 +29,11 @@ const ProtoChatMessage = new protobuf.Type("ChatMessage")
   .add(new protobuf.Field("nick", 2, "string"))
   .add(new protobuf.Field("text", 3, "bytes"));
 
-export default function Flow({
-  initialDataContract,
-  initialDataPosts,
-  address,
-}) {
-  const ContentTopic = "/toy-chat/" + address + "/huilong/proto";
+export default function Flow({initialDataContract,address, }) {
+  const router = useRouter();
+  const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const decoder = createDecoder(ContentTopic);
+
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -43,16 +41,8 @@ export default function Flow({
       initialData: initialDataContract,
     },
   );
-  const { data: posts, isLoading: isPostLoading } = useQuery(
-    ['posts', address],
-    () => getPosts(null, address),
-    {
-      cacheTime: 0,
-    },
-  );
-
   const [err, setErr] = useState(false);
-  const {isAuthorized, openMMlogin } = useContext(MMContext);
+  const { isAuthorized, openMMlogin } = useContext(MMContext);
   const queryClient = useQueryClient();
   const [currentTheme, setCurrentTheme] = React.useState();
   const { theme, systemTheme } = useTheme();
@@ -95,8 +85,6 @@ export default function Flow({
       const startTime = new Date();
       // 7 days/week, 24 hours/day, 60min/hour, 60secs/min, 100ms/sec
       startTime.setTime(startTime.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-      // TODO: Remove this timeout once https://github.com/status-im/js-waku/issues/913 is done
       await new Promise((resolve) => setTimeout(resolve, 200));
 
       try {
@@ -127,32 +115,89 @@ export default function Flow({
     })();
   }, [waku, wakuStatus]);
 
+  function decodeMessage(wakuMessage) {
+    if (!wakuMessage.payload) return;
+  
+    const { timestamp, nick, text } = ProtoChatMessage.decode(
+      wakuMessage.payload
+    );
+  
+    if (!timestamp || !text || !nick) return;
+  
+    const time = new Date();
+    time.setTime(Number(timestamp));
+  
+    const utf8Text = bytesToUtf8(text);
+  
+    return {
+      text: utf8Text,
+      timestamp: time,
+      nick,
+      timestampInt: wakuMessage.timestamp,
+    };
+  }
+
+  function formatDate(timestamp) {
+    return timestamp.toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  }
+
   useEffect(() => {
     const currentTheme = theme === 'system' ? systemTheme : theme;
     setCurrentTheme(currentTheme);
   }, [theme]);
 
-  useEffect(() => {
-    queryClient.invalidateQueries(['contract', address], {
-      forceRefetch: true,
-    });
-    queryClient.invalidateQueries(['posts', address], {
-      forceRefetch: true,
-    });
-  }, [isAuthorized]);
+  // useEffect(() => {
+  //   queryClient.invalidateQueries(['contract', address], {
+  //     forceRefetch: true,
+  //   });
+  //   queryClient.invalidateQueries(['posts', address], {
+  //     forceRefetch: true,
+  //   });
+  // }, [isAuthorized]);
+
+  const post_theme = 'General Discussion'
 
   function Messages(props) {
-    return props.messages.map(({ text, timestamp, nick, timestampInt }) => {
+    return props.messages.map(({ text, timestamp, nick, timestampInt }, i) => {
+      const parsedText = JSON.parse(text);
+      const {title, body} = parsedText;
       return (
         <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
           <div className="p-4 ">
+            <div
+              className="flex flex-row cursor-pointer"
+              onClick={() => router.push(`${router.asPath}/${i}`)}>
+              <div className="rounded-full overflow-hidden h-9 w-9">
+                <Avatar address={nick} />
+              </div>
+              <div className="px-2 flex flex-col  justify-center">
+              <div className="text-sm text-black dark:text-white">
+                {nick}
+              </div>
+              <div className="text-xs text-gray-400">
+                {[
+                  post_theme ? post_theme : null,
+                  formatDate(timestamp),
+                ]
+                  .filter(Boolean)
+                  .join(' • ')}
+              </div>
+          </div>
+            </div>
             <div className="mt-2">
               <div className="text-base text-black font-gtBold dark:text-white">
-                {text}
+                {title}
               </div>
-              <li key={timestampInt}>
-                ({formatDate(timestamp)}) {nick}
-              </li>
+              <div className="dark:text-gray-300">
+                <p className="pt-2 text-start">{body} </p>
+              </div>
             </div>
           </div>
         </div>
@@ -192,7 +237,7 @@ export default function Flow({
               <p className="text-2xl font-gtBold text-black dark:text-white">
                 {contract.name}
               </p>
-              <p className="text-sm text-gray-400">{`nftQ/${contract.address}`}</p>
+              <p className="text-sm text-gray-400">{`zkHub/${contract.address}`}</p>
             </div>
           </div>
         </div>
@@ -208,30 +253,16 @@ export default function Flow({
                   />
                 ) : null}
                 <SortPostsBunner />
-                {/* {posts?.length ? (
-                  posts?.map((e, i) => (
-                    <Message
-                      key={i}
-                      data={e}
-                      isAuthorized={isAuthorized}
-                      openMMlogin={openMMlogin}
-                      hasAccess={contract?.hasAccess}
-                    />
-                  ))
+                {wakuStatus == "Connected" ? (
+                  <div className='justify-center align-center'>
+                    <h3>Waku light node: {wakuStatus}</h3>
+                    <h6>Room: {ContentTopic.slice(0, 20)}...</h6>
+                  </div>
                 ) : (
                   <div className="py-12 flex justify-center align-center">
-                    {isPostLoading ? (
-                      <Spinner />
-                    ) : (
-                      <p className="text-center">
-                        There are no discussions yet. Be the first to post in
-                        this community.
-                      </p>
-                    )}
+                   <Spinner/>
                   </div>
-                )} */}
-                <h2>{wakuStatus}</h2>
-                <h3>{ContentTopic}</h3>
+                )}
                 <Messages messages={messages} />
               </div>
               <div className="basis-1/3">
@@ -287,37 +318,4 @@ export default function Flow({
       </div>
     </Layout>
   );
-}
-
-function decodeMessage(wakuMessage) {
-  if (!wakuMessage.payload) return;
-
-  const { timestamp, nick, text } = ProtoChatMessage.decode(
-    wakuMessage.payload
-  );
-
-  if (!timestamp || !text || !nick) return;
-
-  const time = new Date();
-  time.setTime(Number(timestamp));
-
-  const utf8Text = bytesToUtf8(text);
-
-  return {
-    text: utf8Text,
-    timestamp: time,
-    nick,
-    timestampInt: wakuMessage.timestamp,
-  };
-}
-
-function formatDate(timestamp) {
-  return timestamp.toLocaleString([], {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
 }

@@ -22,8 +22,8 @@ export default function Home({ initialData, address }) {
   return (
     <MMProvider address={address}>
       <Head>
-        <title>nftQ</title>
-        <meta name="description" content="NFTQ - find your ntf community" />
+        <title>zkHub</title>
+        <meta name="description" content="zkHub-let us know" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainPage initialData={initialData} />

@@ -37,10 +37,10 @@ export default function Flow({
   return (
     <MMProvider address={address}>
       <Head>
-        <title>nftQ | post</title>
+        <title>zkHub | post</title>
         <meta
           name="description"
-          content={`NFTQ - discussion for ${contract}`}
+          content={`zkHub - discussion for ${contract}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

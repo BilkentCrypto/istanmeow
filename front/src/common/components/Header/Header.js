@@ -113,17 +113,9 @@ export default function Header({ headerText }) {
           ) : (
             <div
               ref={connectButtonRef}
-<<<<<<< Updated upstream
              
               className="py-2 px-4 ">
 <w3m-button />
-=======
-              onClick={() => setVisible('connect')} className=' mt-2 flex items-center justify-center'
-             
-            >
-              <button  className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-full text-sm px-6 py-3 text-center me-2 mb-2">Connect Wallet</button>
-
->>>>>>> Stashed changes
             </div>
 
           )}

@@ -73,7 +73,7 @@ export default function Message({
   return (
     <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
       <div className="p-4 ">
-        {/* <div
+        <div
           className="flex flex-row cursor-pointer"
           onClick={() => router.push(`${router.asPath}/${post_id}`)}>
           <div className="rounded-full overflow-hidden h-9 w-9">
@@ -93,7 +93,7 @@ export default function Message({
                 .join(' • ')}
             </div>
           </div>
-        </div> */}
+        </div>
         <div
           className="mt-2"
           // onClick={() => router.push(`${router.asPath}/${post_id}`)}

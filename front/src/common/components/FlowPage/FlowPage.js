@@ -34,7 +34,7 @@ export default function Flow({
   initialDataPosts,
   address,
 }) {
-  const ContentTopic = "/toy-chat/" + address + "/huilong/proto";
+  const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const decoder = createDecoder(ContentTopic);
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
@@ -141,18 +141,43 @@ export default function Flow({
     });
   }, [isAuthorized]);
 
+  const post_theme = 'General Discussion'
+
   function Messages(props) {
     return props.messages.map(({ text, timestamp, nick, timestampInt }) => {
+      const parsedText = JSON.parse(text);
+
+      const {title, body} = parsedText;
       return (
         <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
           <div className="p-4 ">
+            <div
+              className="flex flex-row cursor-pointer"
+              onClick={() => router.push(`${router.asPath}/${post_id}`)}>
+              <div className="rounded-full overflow-hidden h-9 w-9">
+                <Avatar address={nick} />
+              </div>
+              <div className="px-2 flex flex-col  justify-center">
+              <div className="text-sm text-black dark:text-white">
+                {nick}
+              </div>
+              <div className="text-xs text-gray-400">
+                {[
+                  post_theme ? post_theme : null,
+                  formatDate(timestamp),
+                ]
+                  .filter(Boolean)
+                  .join(' • ')}
+              </div>
+          </div>
+            </div>
             <div className="mt-2">
               <div className="text-base text-black font-gtBold dark:text-white">
-                {text}
+                {title}
               </div>
-              <li key={timestampInt}>
-                ({formatDate(timestamp)}) {nick}
-              </li>
+              <div className="dark:text-gray-300">
+                <p className="pt-2 text-start">{body} </p>
+              </div>
             </div>
           </div>
         </div>
@@ -208,30 +233,9 @@ export default function Flow({
                   />
                 ) : null}
                 <SortPostsBunner />
-                {/* {posts?.length ? (
-                  posts?.map((e, i) => (
-                    <Message
-                      key={i}
-                      data={e}
-                      isAuthorized={isAuthorized}
-                      openMMlogin={openMMlogin}
-                      hasAccess={contract?.hasAccess}
-                    />
-                  ))
-                ) : (
-                  <div className="py-12 flex justify-center align-center">
-                    {isPostLoading ? (
-                      <Spinner />
-                    ) : (
-                      <p className="text-center">
-                        There are no discussions yet. Be the first to post in
-                        this community.
-                      </p>
-                    )}
-                  </div>
-                )} */}
                 <h2>{wakuStatus}</h2>
-                <h3>{ContentTopic}</h3>
+                <h6>This is the room: {ContentTopic}</h6>
+
                 <Messages messages={messages} />
               </div>
               <div className="basis-1/3">

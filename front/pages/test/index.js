@@ -47,7 +47,7 @@ const handleDecrypt = async( ) => {
 }
 
 const handleClick = async () => {
-  const messageToSign = address+"zkHub";
+  const messageToSign = address+"semaphoreZkHub";
   let signedMessage = await signMessage({message: messageToSign});
   const identity = new Identity(signedMessage);
   console.log("identity", identity)

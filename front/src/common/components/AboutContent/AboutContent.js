@@ -83,7 +83,9 @@ const AboutContent = () => {
                     onClick={() => handleCardClick(4)}
                 />
 
-
+            </div>
+            <div className='flex mt-5 items-center justify-center'>
+                <button className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  rounded-lg font-bold px-12 text- py-4 text-center me-2 mb-2">Approve</button>
 
             </div>
         </div>

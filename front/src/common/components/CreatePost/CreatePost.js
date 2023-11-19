@@ -16,22 +16,25 @@ import {
 import protobuf from "protobufjs";
 import { generate } from "server-name-generator";
 
-export const usePersistentNick = () => {
-  const [nick, setNick] = useState(() => {
-    const persistedNick = window.localStorage.getItem("nick");
-    return persistedNick !== null ? persistedNick : generate();
-  });
-  useEffect(() => {
-    localStorage.setItem("nick", nick);
-  }, [nick]);
-  return [nick, setNick];
-};
 
 export default function CreatePost({ initialData, address, contract }) {
 
   const [waku, setWaku] = useState(undefined);
   const [wakuStatus, setWakuStatus] = useState("None");
-  const [nick, setNick] = usePersistentNick();
+  
+  const [nick, setNick] = useState(() => {
+    // Check if window is defined before accessing localStorage
+    const persistedNick = typeof window !== 'undefined' ? window.localStorage.getItem("nick") : null;
+    return persistedNick !== null ? persistedNick : generate();
+  });
+
+  useEffect(() => {
+    // Check if window is defined before accessing localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("nick", nick);
+    }
+  }, [nick]);
+
   const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const Encoder = createEncoder({ contentTopic: ContentTopic });
 
@@ -65,11 +68,6 @@ export default function CreatePost({ initialData, address, contract }) {
     });
   }, [waku, wakuStatus]);
   
-
-
-export default function CreatePost({ initialData, address, contract }) {
-
-  const router = useRouter();
   const { data: { name, imageURL } = {}, refetch } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -78,16 +76,14 @@ export default function CreatePost({ initialData, address, contract }) {
     },
   );
 
+  const router = useRouter();
   const [formValues, setFormValues] = useState({});
   const [isError, setError] = useState(false);
   const [fieldsError, setFieldsError] = useState({});
 
   const {
-    connect,
-    isConnecting,
     isAuthorized,
     address: userAddress,
-    disconnect,
     openMMlogin,
   } = useContext(MMContext);
 
@@ -107,9 +103,7 @@ export default function CreatePost({ initialData, address, contract }) {
       
       try {
         const sendAsJson = `{ "title": "${formValues.title}", "body": "${formValues.body}" }`;
-        console.log("inside", sendAsJson);
         if (wakuStatus !== "Connected") return;
-        console.log("still going strong");
         sendMessage(sendAsJson, waku, new Date()).then(() => {
           console.log("message sent");
           router.back();

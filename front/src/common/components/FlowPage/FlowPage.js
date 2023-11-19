@@ -115,19 +115,52 @@ export default function Flow({initialDataContract,address, }) {
     })();
   }, [waku, wakuStatus]);
 
+  function decodeMessage(wakuMessage) {
+    if (!wakuMessage.payload) return;
+  
+    const { timestamp, nick, text } = ProtoChatMessage.decode(
+      wakuMessage.payload
+    );
+  
+    if (!timestamp || !text || !nick) return;
+  
+    const time = new Date();
+    time.setTime(Number(timestamp));
+  
+    const utf8Text = bytesToUtf8(text);
+  
+    return {
+      text: utf8Text,
+      timestamp: time,
+      nick,
+      timestampInt: wakuMessage.timestamp,
+    };
+  }
+
+  function formatDate(timestamp) {
+    return timestamp.toLocaleString([], {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  }
+
   useEffect(() => {
     const currentTheme = theme === 'system' ? systemTheme : theme;
     setCurrentTheme(currentTheme);
   }, [theme]);
 
-  useEffect(() => {
-    queryClient.invalidateQueries(['contract', address], {
-      forceRefetch: true,
-    });
-    queryClient.invalidateQueries(['posts', address], {
-      forceRefetch: true,
-    });
-  }, [isAuthorized]);
+  // useEffect(() => {
+  //   queryClient.invalidateQueries(['contract', address], {
+  //     forceRefetch: true,
+  //   });
+  //   queryClient.invalidateQueries(['posts', address], {
+  //     forceRefetch: true,
+  //   });
+  // }, [isAuthorized]);
 
   const post_theme = 'General Discussion'
 
@@ -220,7 +253,6 @@ export default function Flow({initialDataContract,address, }) {
                   />
                 ) : null}
                 <SortPostsBunner />
-
                 {wakuStatus == "Connected" ? (
                   <div className='justify-center align-center'>
                     <h3>Waku light node: {wakuStatus}</h3>
@@ -228,11 +260,10 @@ export default function Flow({initialDataContract,address, }) {
                   </div>
                 ) : (
                   <div className="py-12 flex justify-center align-center">
-                  <Spinner/>
+                   <Spinner/>
                   </div>
                 )}
                 <Messages messages={messages} />
-
               </div>
               <div className="basis-1/3">
                 <div className="rounded-md flex bg-white my-4 ml-4 border dark:border-zinc-700 dark:bg-neutral-800 ">

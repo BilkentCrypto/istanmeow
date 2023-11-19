@@ -11,15 +11,26 @@ import {
   createLightNode,
 } from '@waku/sdk';
 import protobuf from "protobufjs";
+import { generate } from "server-name-generator";
+
+export const usePersistentNick = () => {
+  const [nick, setNick] = useState(() => {
+    const persistedNick = window.localStorage.getItem("nick");
+    return persistedNick !== null ? persistedNick : generate();
+  });
+  useEffect(() => {
+    localStorage.setItem("nick", nick);
+  }, [nick]);
+  return [nick, setNick];
+};
 
 export default function CreatePost({ initialData, address, contract }) {
 
   const [waku, setWaku] = useState(undefined);
   const [wakuStatus, setWakuStatus] = useState("None");
-  
+  const [nick, setNick] = usePersistentNick();
   const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const Encoder = createEncoder({ contentTopic: ContentTopic });
-
 
   const SimpleChatMessage = new protobuf.Type("ChatMessage")
     .add(new protobuf.Field("timestamp", 1, "uint32"))
@@ -109,7 +120,7 @@ export default function CreatePost({ initialData, address, contract }) {
     // Encode to protobuf
     const protoMsg = SimpleChatMessage.create({
       timestamp: time,
-      nick: userAddress,
+      nick: nick,
       text: message,
     });
     const payload = SimpleChatMessage.encode(protoMsg).finish();

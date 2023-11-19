@@ -31,7 +31,7 @@ export default function SortPostsBunner({}) {
               className="w-6 h-6 hidden xl:block"
               src={themeW === 'dark' ? LatestIconW : LatestIcon}
             />
-            <p className="px-2 text-black dark:text-white">Latest</p>
+            <p className="px-2 text-black dark:text-white">Forum</p>
           </div>
         </div>
         <div className="h-12 mr-6 content-center items-center flex rounded-full bg-white  dark:bg-neutral-800">
@@ -41,7 +41,7 @@ export default function SortPostsBunner({}) {
               className="w-6 h-6 opacity-50 hidden xl:block"
               src={themeW === 'dark' ? RandomIconW : RandomIcon}
             />
-            <p className="px-2 text-gray-400 dark:text-white">Random</p>
+            <p className="px-2 text-gray-400 dark:text-white">Events</p>
           </div>
         </div>
         <div className="h-12 mr-6 content-center items-center flex rounded-full bg-white  dark:bg-neutral-800">
@@ -51,7 +51,7 @@ export default function SortPostsBunner({}) {
               className="w-6 h-6 opacity-50 hidden xl:block"
               src={themeW === 'dark' ? MostDiscussedIconW : MostDiscussedIcon}
             />
-            <p className="px-2 text-gray-400 dark:text-white">Discussed</p>
+            <p className="px-2 text-gray-400 dark:text-white">Updates</p>
           </div>
         </div>
         <div className="h-12 mr-6 content-center items-center flex rounded-full bg-white  dark:bg-neutral-800">
@@ -61,7 +61,7 @@ export default function SortPostsBunner({}) {
               className="w-6 h-6 opacity-50 hidden xl:block"
               src={themeW === 'dark' ? MostUpvotedIconW : MostUpvotedIcon}
             />
-            <p className="px-2 text-gray-400 dark:text-white">Upvoted</p>
+            <p className="px-2 text-gray-400 dark:text-white">Stats</p>
           </div>
         </div>
       </div>

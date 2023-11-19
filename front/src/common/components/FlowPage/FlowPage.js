@@ -2,12 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import Message from '../Message';
 import Layout from '../Layout/Layout';
-
+import { useRouter } from 'next/router';
 import { getContract } from '../../../../data/contracts';
-import { getPosts } from '../../../../data/posts';
-
 import etherscan from '../../../assets/svg/etherscan.svg';
 import etherscanDark from '../../../assets/svg/etherscandark.svg';
 import CreatePostBanner from '../CreatePostBanner';
@@ -29,11 +26,8 @@ const ProtoChatMessage = new protobuf.Type("ChatMessage")
   .add(new protobuf.Field("nick", 2, "string"))
   .add(new protobuf.Field("text", 3, "bytes"));
 
-export default function Flow({
-  initialDataContract,
-  initialDataPosts,
-  address,
-}) {
+export default function Flow({initialDataContract,address, }) {
+  const router = useRouter();
   const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const decoder = createDecoder(ContentTopic);
   const { isLoading, data: contract } = useQuery(
@@ -43,14 +37,6 @@ export default function Flow({
       initialData: initialDataContract,
     },
   );
-  const { data: posts, isLoading: isPostLoading } = useQuery(
-    ['posts', address],
-    () => getPosts(null, address),
-    {
-      cacheTime: 0,
-    },
-  );
-
   const [err, setErr] = useState(false);
   const {isAuthorized, openMMlogin } = useContext(MMContext);
   const queryClient = useQueryClient();
@@ -95,8 +81,6 @@ export default function Flow({
       const startTime = new Date();
       // 7 days/week, 24 hours/day, 60min/hour, 60secs/min, 100ms/sec
       startTime.setTime(startTime.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-      // TODO: Remove this timeout once https://github.com/status-im/js-waku/issues/913 is done
       await new Promise((resolve) => setTimeout(resolve, 200));
 
       try {
@@ -144,16 +128,15 @@ export default function Flow({
   const post_theme = 'General Discussion'
 
   function Messages(props) {
-    return props.messages.map(({ text, timestamp, nick, timestampInt }) => {
+    return props.messages.map(({ text, timestamp, nick, timestampInt }, i) => {
       const parsedText = JSON.parse(text);
-
       const {title, body} = parsedText;
       return (
         <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
           <div className="p-4 ">
             <div
               className="flex flex-row cursor-pointer"
-              onClick={() => router.push(`${router.asPath}/${post_id}`)}>
+              onClick={() => router.push(`${router.asPath}/${i}`)}>
               <div className="rounded-full overflow-hidden h-9 w-9">
                 <Avatar address={nick} />
               </div>
@@ -233,9 +216,17 @@ export default function Flow({
                   />
                 ) : null}
                 <SortPostsBunner />
-                <h2>{wakuStatus}</h2>
-                <h6>This is the room: {ContentTopic}</h6>
 
+                {wakuStatus == "Connected" ? (
+                  <div className='justify-center align-center'>
+                    <h3>Waku light node: {wakuStatus}</h3>
+                    <h6>Room: {ContentTopic.slice(0, 20)}...</h6>
+                  </div>
+                ) : (
+                  <div className="py-12 flex justify-center align-center">
+                  <Spinner/>
+                  </div>
+                )}
                 <Messages messages={messages} />
               </div>
               <div className="basis-1/3">

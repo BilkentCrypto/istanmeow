@@ -56,8 +56,8 @@ export default function MainPage({ initialData = null }) {
     refetch();
   }, [fetchState]);
 
-  const filteredContracts = contracts?.filter(e => ["Sound Paradise", "Hide and Scream", "Culinary Secrets", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
-  const remainingContracts = contracts?.filter(e => !["Sound Paradise", "Hide and Scream", "Culinary Secrets", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
+  const filteredContracts = contracts?.filter(e => ["Scroll - CryptoCats", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
+  const remainingContracts = contracts?.filter(e => !["Scroll - CryptoCats", "Andrew's Angels", "Harper's Inn", "Mind Your Stretch"].includes(e.name));
 
   return (
     <Layout headerText="Communities" showFooter>

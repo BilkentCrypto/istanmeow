@@ -25,6 +25,10 @@ export default function Flow({
   initialDataPosts,
   address,
 }) {
+
+  const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
+  const decoder = createDecoder(ContentTopic);
+
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -58,6 +62,50 @@ export default function Flow({
       forceRefetch: true,
     });
   }, [isAuthorized]);
+
+  const post_theme = 'General Discussion'
+
+  function Messages(props) {
+    return props.messages.map(({ text, timestamp, nick, timestampInt }) => {
+      const parsedText = JSON.parse(text);
+
+      const {title, body} = parsedText;
+      return (
+        <div className="w-full rounded-md bg-white border border-gray-200 my-4 dark:border-zinc-700 dark:bg-neutral-800">
+          <div className="p-4 ">
+            <div
+              className="flex flex-row cursor-pointer"
+              onClick={() => router.push(`${router.asPath}/${post_id}`)}>
+              <div className="rounded-full overflow-hidden h-9 w-9">
+                <Avatar address={nick} />
+              </div>
+              <div className="px-2 flex flex-col  justify-center">
+              <div className="text-sm text-black dark:text-white">
+                {nick}
+              </div>
+              <div className="text-xs text-gray-400">
+                {[
+                  post_theme ? post_theme : null,
+                  formatDate(timestamp),
+                ]
+                  .filter(Boolean)
+                  .join(' • ')}
+              </div>
+          </div>
+            </div>
+            <div className="mt-2">
+              <div className="text-base text-black font-gtBold dark:text-white">
+                {title}
+              </div>
+              <div className="dark:text-gray-300">
+                <p className="pt-2 text-start">{body} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
 
   return (
     <Layout headerText="">
@@ -107,28 +155,12 @@ export default function Flow({
                   />
                 ) : null}
                 <SortPostsBunner />
-                {posts?.length ? (
-                  posts?.map((e, i) => (
-                    <Message
-                      key={i}
-                      data={e}
-                      isAuthorized={isAuthorized}
-                      openMMlogin={openMMlogin}
-                      hasAccess={contract?.hasAccess}
-                    />
-                  ))
-                ) : (
-                  <div className="py-12 flex justify-center align-center">
-                    {isPostLoading ? (
-                      <Spinner />
-                    ) : (
-                      <p className="text-center">
-                        There are no discussions yet. Be the first to post in
-                        this community.
-                      </p>
-                    )}
-                  </div>
-                )}
+
+                <h2>{wakuStatus}</h2>
+                <h6>This is the room: {ContentTopic}</h6>
+
+                <Messages messages={messages} />
+
               </div>
               <div className="basis-1/3">
                 <div className="rounded-md flex bg-white my-4 ml-4 border dark:border-zinc-700 dark:bg-neutral-800 ">

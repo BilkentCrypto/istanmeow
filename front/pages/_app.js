@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from 'next-themes';
 
 import '../styles/globals.css';
-
 import { Web3Modal } from "../context/Web3Modal";
 
 export const metadata = {
@@ -11,7 +10,8 @@ export const metadata = {
   description: "Web3Modal Example",
 };
 
-function NftQ({ Component, pageProps }) {
+function zkHub({ Component, pageProps }) {
+
   const queryClientRef = React.useRef();
 
   if (!queryClientRef.current) {
@@ -29,4 +29,4 @@ function NftQ({ Component, pageProps }) {
   );
 }
 
-export default NftQ;
+export default zkHub;

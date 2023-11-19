@@ -140,7 +140,7 @@ export default function PostPage({
                   </div>
                 </div>
                 <div className="flex flex-col ml-2">
-                  <p className="text-sm text-gray-700 dark:text-gray-300">{`nftQ/${user_address}`}</p>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{`zkHub/${user_address}`}</p>
                   <div className="text-xs text-gray-400">
                     {[
                       // name ? `${name}` : null,

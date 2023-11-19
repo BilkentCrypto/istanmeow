@@ -1,4 +1,4 @@
-# NFTq
+# zk-Hub
 Communities for NFT collections
 
 ### Description

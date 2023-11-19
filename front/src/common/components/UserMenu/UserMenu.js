@@ -28,44 +28,6 @@ export default function UserMenu({ onClick, address }) {
       {/* <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
         User menu
       </h5> */}
-      <ul className="my-4 space-y-3">
-        <li>
-          <a
-            href='https://www.nftq.org/'
-            className="flex items-center py-1 text-base text-gray-900 rounded-lg group hover:text-gray-600 dark:hover:text-gray-200 dark:text-white cursor-pointer">
-            <span className="flex-1 ml-3 whitespace-nowrap text-l">
-              About nftQ
-            </span>
-          </a>
-        </li>
-        <li>
-          <a
-            href='https://www.nftq.org/guidelines'
-            className="flex items-center py-1 text-base text-gray-900 rounded-lg group hover:text-gray-600 dark:hover:text-gray-200 dark:text-white cursor-pointer">
-            <span className="flex-1 ml-3 whitespace-nowrap text-l">
-              Guidelines & Safety
-            </span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.nftq.org/faq"
-            className="flex items-center py-1 text-base text-gray-900 rounded-lg group hover:text-gray-600 dark:hover:text-gray-200 dark:text-white cursor-pointer">
-            <span className="flex-1 ml-3 whitespace-nowrap text-l">
-              Support
-            </span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://twitter.com/nftQorg"
-            className="flex items-center py-1 text-base text-gray-900 rounded-lg group hover:text-gray-600 dark:hover:text-gray-200 dark:text-white cursor-pointer">
-            <span className="flex-1 ml-3 whitespace-nowrap text-l">
-              Follow on Twitter
-            </span>
-          </a>
-        </li>
-        <li>
           <span
             onClick={onClick}
             className="flex items-center py-1 text-base text-gray-900 rounded-lg group hover:text-gray-600 dark:hover:text-gray-200 dark:text-white cursor-pointer">
@@ -75,8 +37,6 @@ export default function UserMenu({ onClick, address }) {
               </span>
             ) : null}
           </span>
-        </li>
-      </ul>
     </div>
   );
 }

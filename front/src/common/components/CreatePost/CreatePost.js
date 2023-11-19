@@ -423,7 +423,7 @@ export default function CreatePost({ initialData, address, contract }) {
                 </ul>
                 <p className="text-base text-gray-700 dark:text-gray-300">
                   By following these guidelines, you contribute to a positive
-                  and inclusive community experience on nftQ. Violations may
+                  and inclusive community experience on zkHub. Violations may
                   lead to content removal or account suspension.
                 </p>
               </div>

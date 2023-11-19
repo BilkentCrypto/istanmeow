@@ -217,7 +217,7 @@ export default function Flow({
               <p className="text-2xl font-gtBold text-black dark:text-white">
                 {contract.name}
               </p>
-              <p className="text-sm text-gray-400">{`nftQ/${contract.address}`}</p>
+              <p className="text-sm text-gray-400">{`zkHub/${contract.address}`}</p>
             </div>
           </div>
         </div>

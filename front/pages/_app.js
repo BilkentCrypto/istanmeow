@@ -4,7 +4,7 @@ import { ThemeProvider } from 'next-themes';
 
 import '../styles/globals.css';
 
-function NftQ({ Component, pageProps }) {
+function zkHub({ Component, pageProps }) {
   const queryClientRef = React.useRef();
 
   if (!queryClientRef.current) {
@@ -20,4 +20,4 @@ function NftQ({ Component, pageProps }) {
   );
 }
 
-export default NftQ;
+export default zkHub;

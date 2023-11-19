@@ -33,7 +33,7 @@ export default function Sidenav({ initialData = [] }) {
           <Link
             href="/"
             className="text-lg font-gtBold text-black dark:text-white">
-            nftQ
+            zkHub
           </Link>
         </div>
         {data ? (

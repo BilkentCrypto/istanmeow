@@ -21,7 +21,7 @@ export default function Flow({ address }) {
     <MMProvider address={address}>
       <Head>
         <title>{address}</title>
-        <meta name="description" content={`NFTQ - page is not found`} />
+        <meta name="description" content={`zkHub - page is not found`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout headerText="">

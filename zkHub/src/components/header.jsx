@@ -13,8 +13,8 @@ const Header = () => {
     <nav className="bg-white  fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-300">
       <div className="max-w-screen-xl mx-auto p-5 flex items-center justify-between">
         <span className="self-center text-2xl font-semibold whitespace-nowrap">
-          <span className="text-nft text-pink-500">zk</span>
-          <span className="text-q text-black">-Hub</span>
+          <span className="text-nft font-bold text-pink-500">zk</span>
+          <span className="text-q font-bold text-black">Hub</span>
         </span>
         <div className="hidden md:flex md:justify-center md:items-center   md:order-2 space-x-10 rtl:space-x-reverse">
           <Link

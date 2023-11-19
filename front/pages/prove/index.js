@@ -2,6 +2,9 @@ import React from 'react'
 import ProveContent from '../../src/common/components/ProveContent/ProveContent'
 import Navbar from '../../src/common/components/Navbar/Navbar'
 
+
+
+
 const Prove = () => {
     return (
         <div className=' flex min-h-screen grid-2'>

@@ -12,7 +12,6 @@ module.exports = {
             : {},
         },
       )
-
     ).json(),
   getPost: async (token, address, post) =>
     (

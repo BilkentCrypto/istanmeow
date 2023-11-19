@@ -4,6 +4,13 @@ import { ThemeProvider } from 'next-themes';
 
 import '../styles/globals.css';
 
+import { Web3Modal } from "../context/Web3Modal";
+
+export const metadata = {
+  title: "Web3Modal",
+  description: "Web3Modal Example",
+};
+
 function NftQ({ Component, pageProps }) {
   const queryClientRef = React.useRef();
 
@@ -14,7 +21,9 @@ function NftQ({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <ThemeProvider attribute="class">
-        <Component {...pageProps} />
+        <Web3Modal>
+          <Component {...pageProps} />
+        </Web3Modal>
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -8,34 +8,27 @@ import Layout from '../Layout/Layout';
 import { getContract } from '../../../../data/contracts';
 import { getPosts } from '../../../../data/posts';
 
+import link from '../../../assets/svg/link.svg';
 import etherscan from '../../../assets/svg/etherscan.svg';
 import etherscanDark from '../../../assets/svg/etherscandark.svg';
+import twitter from '../../../assets/svg/twitter.svg';
+import discord from '../../../assets/svg/discord.svg';
+import eth from '../../../assets/svg/eth.svg';
 import CreatePostBanner from '../CreatePostBanner';
 import SortPostsBunner from '../SortPostsBunner/SortPostsBunner';
 import Avatar from '../Avatar/Avatar';
 import { MMContext } from '../../contexts/mm';
 import Spinner from '../Spinner';
 
-import protobuf from "protobufjs";
-import {
-  createLightNode,
-  waitForRemotePeer,
-  createDecoder,
-  bytesToUtf8,
-} from "@waku/sdk";
-
-const ProtoChatMessage = new protobuf.Type("ChatMessage")
-  .add(new protobuf.Field("timestamp", 1, "uint64"))
-  .add(new protobuf.Field("nick", 2, "string"))
-  .add(new protobuf.Field("text", 3, "bytes"));
-
 export default function Flow({
   initialDataContract,
   initialDataPosts,
   address,
 }) {
+
   const ContentTopic = "/1testtokengated/" + address + "/huilong/proto";
   const decoder = createDecoder(ContentTopic);
+
   const { isLoading, data: contract } = useQuery(
     ['contract', address],
     () => getContract(null, address),
@@ -50,82 +43,11 @@ export default function Flow({
       cacheTime: 0,
     },
   );
-
   const [err, setErr] = useState(false);
-  const {isAuthorized, openMMlogin } = useContext(MMContext);
+  const { isAuthorized, openMMlogin } = useContext(MMContext);
   const queryClient = useQueryClient();
   const [currentTheme, setCurrentTheme] = React.useState();
   const { theme, systemTheme } = useTheme();
-
-  const [waku, setWaku] = React.useState(undefined);
-  const [wakuStatus, setWakuStatus] = React.useState("None");
-  const [messages, setMessages] = React.useState([]);
-  const [lastMessages, setlastMessages] = React.useState(false);
-
-  useEffect(() => {
-    if (wakuStatus !== "None") return;
-
-    setWakuStatus("Starting");
-
-    createLightNode({ defaultBootstrap: true }).then((waku) => {
-      waku.start().then(() => {
-        setWaku(waku);
-        setWakuStatus("Connecting");
-      });
-    });
-  }, [waku, wakuStatus]);
-
-  useEffect(() => {
-    if (!waku) return;
-
-    // We do not handle disconnection/re-connection in this example
-    if (wakuStatus === "Connected") return;
-
-    waitForRemotePeer(waku, ["store"]).then(() => {
-      // We are now connected to a store node
-      setWakuStatus("Connected");
-    });
-  }, [waku, wakuStatus]);
-
-  useEffect(() => {
-    if (wakuStatus !== "Connected") return;
-    console.log("yo1o", messages);
-    if (lastMessages == true) return;
-    (async () => { 
-      const startTime = new Date();
-      // 7 days/week, 24 hours/day, 60min/hour, 60secs/min, 100ms/sec
-      startTime.setTime(startTime.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-      // TODO: Remove this timeout once https://github.com/status-im/js-waku/issues/913 is done
-      await new Promise((resolve) => setTimeout(resolve, 200));
-
-      try {
-        for await (const messagesPromises of waku.store.queryGenerator(
-          [decoder],
-          {
-            timeFilter: { startTime, endTime: new Date() },
-            pageDirection: "forward",
-          }
-        )) {
-          const messages = await Promise.all(
-            messagesPromises.map(async (p) => {
-              const msg = await p;
-              return decodeMessage(msg);
-            })
-          );
-          console.log("yoo", messages);
-          setMessages((currentMessages) => {
-            return currentMessages.concat(messages.filter(Boolean).reverse());
-          });
-        }
-
-        setlastMessages(true);
-      } catch (e) {
-        console.log("Failed to retrieve messages", e);
-        setWakuStatus("Error Encountered");
-      }
-    })();
-  }, [waku, wakuStatus]);
 
   useEffect(() => {
     const currentTheme = theme === 'system' ? systemTheme : theme;
@@ -233,10 +155,12 @@ export default function Flow({
                   />
                 ) : null}
                 <SortPostsBunner />
+
                 <h2>{wakuStatus}</h2>
                 <h6>This is the room: {ContentTopic}</h6>
 
                 <Messages messages={messages} />
+
               </div>
               <div className="basis-1/3">
                 <div className="rounded-md flex bg-white my-4 ml-4 border dark:border-zinc-700 dark:bg-neutral-800 ">
@@ -291,37 +215,4 @@ export default function Flow({
       </div>
     </Layout>
   );
-}
-
-function decodeMessage(wakuMessage) {
-  if (!wakuMessage.payload) return;
-
-  const { timestamp, nick, text } = ProtoChatMessage.decode(
-    wakuMessage.payload
-  );
-
-  if (!timestamp || !text || !nick) return;
-
-  const time = new Date();
-  time.setTime(Number(timestamp));
-
-  const utf8Text = bytesToUtf8(text);
-
-  return {
-    text: utf8Text,
-    timestamp: time,
-    nick,
-    timestampInt: wakuMessage.timestamp,
-  };
-}
-
-function formatDate(timestamp) {
-  return timestamp.toLocaleString([], {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
 }

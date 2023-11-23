@@ -12,15 +12,12 @@ function Body() {
       <div className="grid rounded-3xl  grid-cols-1 md:grid-cols-1  justify-center items-center lg:grid-cols-2 gap-4 h-full">
         {/* left-side */}
         <div className='   ml-20 mb-20 '>
-          <div className='text-6xl text-gray-800 font-sans font-bold'>
-            One app to
+          <div className='text-4xl text-gray-800 font-sans font-bold'>
+          Uninterrupted communication with 100% anonymity within your community.
           </div>
-          <div className='text-6xl mt-3 text-gray-800 font-sans font-bold'>
-            replace them all.
-          </div>
-          <div className='text-1xl mt-10 text-gray-400 font-sans mr-10 font-normal'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat, libero vitae consequat ultricies, justo ante ultrices risus, at molestie metus mi non ex. Nulla vitae odio quis neque volutpat condimentum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
+          
+          <div className='text-1xl mt-8 text-gray-400 font-sans mr-10 font-normal'>
+          While developing zkHub, we promise 100% anonymity among users with the zk technology we use on the Scroll, and thanks to WAKU, we offer fast communication between community members in an offchain and decentralized way.          </div>
           <button className=" mt-10 bg-[#D22FC6] text-white font-semibold hover:text-blue-700 py-3 px-16 border hover:border-blue-500 hover:bg-transparent rounded-xl">
             Let's start
           </button>

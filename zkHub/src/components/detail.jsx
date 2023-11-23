@@ -40,7 +40,7 @@ const Detail = () => {
                 </div>
                 {/* right-side */}
                 <div className='gap-4 mt-5  lg:mt-0 lg:ml-5'>
-                    <div className='text-1xl ml-5 lg:text-right text-left text-gray-400 font-sans  font-normal'>
+                    <div className='text-1xl ml-5 lg:text-right text-left text-transparent font-sans  font-normal'>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat, libero vitae consequat ultricies, justo ante ultrices risus, at molestie metus mi non ex. Nulla vitae odio quis neque volutpat condimentum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
                     </div>
@@ -49,8 +49,7 @@ const Detail = () => {
                             100% Anonymity
                         </div>
                         <div className='text-1xl ml-10 mt-10 text-left mr-10 mb-40  text-gray-400 font-sans  font-normal'>
-                            After proving the user's NFT ownership with a Scroll, users never have to reveal their identities by sending the zk proofs created with Noira to the Scroll again
-                            <div className="w-24 h-24 mt-5 ml-48 mb-50 ">
+                        With Semaphore, a privacy layer we run in the scroll, we can determine whether users own an asset or not without sharing any of the user's data.                            <div className="w-24 h-24 mt-5 ml-48 mb-50 ">
                             <img src={Shield} alt="Logo" className="w-full h-full flex items-center justify-center object-cover" />
                         </div>
 
